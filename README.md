@@ -1,86 +1,98 @@
-# AppName
+# TubeRise
 
-> **[Product name TBD]** — A better alternative to [competing tool TBD]
+TubeRise is a YouTube influencer campaign platform that connects brands with creators and tracks ROI in one place.
 
-<!-- Update this section once the product idea is finalized -->
+## What It Does
 
-## What it does
+TubeRise supports the full campaign lifecycle for both sides of the marketplace:
+- Brands can discover creators, launch campaigns, invite creators, and measure ROI (CPV, engagement rate, reach).
+- Creators can connect their channel, view analytics, manage invitations, and submit campaign videos.
 
-_Description coming soon. This is a placeholder until the product idea is finalized._
+## Key Features
 
-## Alternative to
-
-_[Tool name] — Will be updated once the product is defined._
-
----
+- Creator discovery with niche and performance filters
+- Campaign creation, invitations, and status tracking
+- Creator analytics snapshots and top videos
+- Campaign ROI dashboard with CPV and engagement metrics
+- Creator submissions with performance tracking
 
 ## Tech Stack
 
-- **Framework**: Next.js (App Router, TypeScript)
-- **Styling**: Tailwind CSS
-- **Backend / Auth / DB**: Supabase
-- **Deployment**: Vercel
+- Next.js (App Router, TypeScript)
+- Tailwind CSS
+- Supabase (Auth, Postgres, RLS)
+- Vercel deployment
 
 ## Getting Started
 
-### 1. Clone the repo
-
-```bash
-git clone <repo-url>
-cd project
-```
-
-### 2. Install dependencies
+1. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Set up environment variables
+2. Configure environment variables
 
 ```bash
 cp .env.example .env.local
 ```
 
-Edit `.env.local` and add your Supabase credentials:
+Set the Supabase values in `.env.local`:
 
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 ```
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
 
-Get these from: [Supabase Dashboard](https://supabase.com) → Your Project → Settings → API
-
-### 4. Run the development server
+3. Run the app
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open `http://localhost:3000`.
 
----
+## Database (Supabase)
+
+Schema and seed data live in `supabase/migrations`.
+
+If you use the Supabase CLI locally:
+
+```bash
+supabase start
+supabase db reset
+```
+
+This applies the schema in `supabase/migrations/20260217000000_initial_schema.sql` and optional seed data in `supabase/migrations/20260217000001_seed_data.sql`.
+
+## Demo Accounts (Seed Data)
+
+The seed script creates mock users with password `Password123!`. Examples:
+- `techwithAlex@tuberise.dev` (creator)
+- `novatech@tuberise.dev` (brand)
 
 ## Project Structure
 
 ```
 src/
-├── app/
-│   ├── (auth)/         # Login & signup pages
-│   ├── (dashboard)/    # Protected dashboard pages
-│   ├── auth/callback/  # Supabase auth callback handler
-│   └── page.tsx        # Landing page
-├── components/
-│   ├── auth/           # LoginForm, SignupForm
-│   └── layout/         # Sidebar, Header
-├── lib/
-│   └── supabase/       # Browser + server clients
-└── middleware.ts        # Route protection
+app/
+(auth)/               # Login & signup
+(dashboard)/          # Authenticated dashboard routes
+onboarding/           # Role selection + profile setup
+auth/callback/        # Supabase auth callback
+page.tsx              # Marketing landing page
+components/
+auth/                 # Login, signup, forgot password
+dashboard/            # Creator + brand dashboard UI
+layout/               # Sidebar, header, shell
+lib/
+supabase/             # Browser + server clients
+middleware.ts         # Route protection
 ```
 
-## Deploy on Vercel
+## Scripts
 
-1. Push to GitHub
-2. Import repo on [Vercel](https://vercel.com)
-3. Add environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
-4. Deploy
+- `npm run dev` - start the dev server
+- `npm run build` - production build
+- `npm run start` - run the production server
+- `npm run lint` - lint the codebase
