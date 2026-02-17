@@ -16,11 +16,19 @@ export async function respondToInvitation(invitationId: string, status: 'accepte
 function extractVideoId(url: string): string | null {
   try {
     const parsed = new URL(url)
-    if (parsed.hostname === 'youtu.be') {
-      return parsed.pathname.slice(1) || null
+    const host = parsed.hostname.replace(/^www\./, '')
+    if (host === 'youtu.be') {
+      const id = parsed.pathname.split('/').filter(Boolean)[0]
+      return id || null
     }
-    if (parsed.hostname === 'www.youtube.com' || parsed.hostname === 'youtube.com') {
-      return parsed.searchParams.get('v')
+    if (host.endsWith('youtube.com')) {
+      if (parsed.pathname === '/watch') {
+        return parsed.searchParams.get('v')
+      }
+      const parts = parsed.pathname.split('/').filter(Boolean)
+      if (parts[0] === 'shorts' || parts[0] === 'embed' || parts[0] === 'live') {
+        return parts[1] || null
+      }
     }
     return null
   } catch {
@@ -46,14 +54,9 @@ export async function submitVideo(formData: FormData) {
     return { error: 'YouTube URL and title are required.' }
   }
 
-  const youtubeRegex = /^https?:\/\/(www\.)?youtube\.com\/watch\?v=[\w-]+|^https?:\/\/youtu\.be\/[\w-]+/
-  if (!youtubeRegex.test(youtubeUrl)) {
-    return { error: 'Invalid YouTube URL. Use youtube.com/watch?v= or youtu.be/ format.' }
-  }
-
   const videoId = extractVideoId(youtubeUrl)
   if (!videoId) {
-    return { error: 'Could not extract video ID from URL.' }
+    return { error: 'Invalid YouTube URL. Use youtube.com/watch?v= or youtu.be/ format.' }
   }
 
   const engagementRate = views > 0 ? ((likes + comments) / views) * 100 : 0
