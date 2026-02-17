@@ -26,20 +26,12 @@ export default function VideoSubmissionForm({ invitationId, campaignId }: VideoS
     try {
       const parsed = new URL(url)
       const host = parsed.hostname.replace(/^www\./, '')
-      if (host === 'youtu.be') {
-        const id = parsed.pathname.split('/').filter(Boolean)[0]
-        return id || null
+      if (!host.endsWith('youtube.com')) return null
+      if (parsed.pathname === '/watch') {
+        return parsed.searchParams.get('v') || 'unknown'
       }
-      if (host.endsWith('youtube.com')) {
-        if (parsed.pathname === '/watch') {
-          return parsed.searchParams.get('v')
-        }
-        const parts = parsed.pathname.split('/').filter(Boolean)
-        if (parts[0] === 'shorts' || parts[0] === 'embed' || parts[0] === 'live') {
-          return parts[1] || null
-        }
-      }
-      return null
+      const parts = parsed.pathname.split('/').filter(Boolean)
+      return parts[parts.length - 1] || 'unknown'
     } catch {
       return null
     }
@@ -48,7 +40,7 @@ export default function VideoSubmissionForm({ invitationId, campaignId }: VideoS
   const validate = () => {
     if (!youtubeUrl.trim()) return 'YouTube URL is required.'
     const videoId = extractVideoId(youtubeUrl.trim())
-    if (!videoId) return 'Invalid YouTube URL. Use youtube.com/watch?v= or youtu.be/ format.'
+    if (!videoId) return 'Invalid YouTube URL. Use a youtube.com link.'
     if (!title.trim()) return 'Video title is required.'
     if (views && Number(views) < 0) return 'Views cannot be negative.'
     if (likes && Number(likes) < 0) return 'Likes cannot be negative.'
@@ -98,7 +90,7 @@ export default function VideoSubmissionForm({ invitationId, campaignId }: VideoS
           placeholder="https://www.youtube.com/watch?v=..."
           required
         />
-        <p className="text-xs text-gray-400 mt-1">Accepts youtube.com/watch?v= or youtu.be/ links</p>
+        <p className="text-xs text-gray-400 mt-1">Accepts youtube.com links</p>
       </div>
 
       <div>

@@ -25,12 +25,17 @@ export default async function VideosPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
       const { data } = await supabase
-        .from('video_snapshots')
-        .select('title, thumbnail_url, views, likes, comments, engagement_rate, published_at, duration')
-        .eq('user_id', user.id)
-        .order('views', { ascending: false })
+        .from('campaign_videos')
+        .select('title, thumbnail_url, views, likes, comments, engagement_rate, submitted_at')
+        .eq('creator_user_id', user.id)
+        .order('submitted_at', { ascending: false })
         .limit(20)
-      videos = data ?? []
+      videos =
+        data?.map((row) => ({
+          ...row,
+          published_at: row.submitted_at,
+          duration: null,
+        })) ?? []
     }
   }
 

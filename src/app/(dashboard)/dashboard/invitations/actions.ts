@@ -17,20 +17,12 @@ function extractVideoId(url: string): string | null {
   try {
     const parsed = new URL(url)
     const host = parsed.hostname.replace(/^www\./, '')
-    if (host === 'youtu.be') {
-      const id = parsed.pathname.split('/').filter(Boolean)[0]
-      return id || null
+    if (!host.endsWith('youtube.com')) return null
+    if (parsed.pathname === '/watch') {
+      return parsed.searchParams.get('v') || 'unknown'
     }
-    if (host.endsWith('youtube.com')) {
-      if (parsed.pathname === '/watch') {
-        return parsed.searchParams.get('v')
-      }
-      const parts = parsed.pathname.split('/').filter(Boolean)
-      if (parts[0] === 'shorts' || parts[0] === 'embed' || parts[0] === 'live') {
-        return parts[1] || null
-      }
-    }
-    return null
+    const parts = parsed.pathname.split('/').filter(Boolean)
+    return parts[parts.length - 1] || 'unknown'
   } catch {
     return null
   }
@@ -56,7 +48,7 @@ export async function submitVideo(formData: FormData) {
 
   const videoId = extractVideoId(youtubeUrl)
   if (!videoId) {
-    return { error: 'Invalid YouTube URL. Use youtube.com/watch?v= or youtu.be/ format.' }
+    return { error: 'Invalid YouTube URL. Use a youtube.com link.' }
   }
 
   const engagementRate = views > 0 ? ((likes + comments) / views) * 100 : 0
@@ -66,7 +58,7 @@ export async function submitVideo(formData: FormData) {
     invitation_id: invitationId,
     creator_user_id: user.id,
     video_id: videoId,
-    youtube_url: youtubeUrl,
+    video_url: youtubeUrl,
     title,
     thumbnail_url: thumbnailUrl,
     views,
