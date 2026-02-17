@@ -12,9 +12,28 @@ interface ProfileFormProps {
   email: string
   displayName: string
   role: 'creator' | 'brand' | null
+  creatorProfile?: {
+    channel_name: string | null
+    location: string | null
+    niche: string[] | null
+    bio: string | null
+    contact_email: string | null
+  } | null
+  brandProfile?: {
+    company_name: string | null
+    website: string | null
+    niche: string | null
+    description: string | null
+  } | null
 }
 
-export default function ProfileForm({ email, displayName, role }: ProfileFormProps) {
+export default function ProfileForm({
+  email,
+  displayName,
+  role,
+  creatorProfile,
+  brandProfile,
+}: ProfileFormProps) {
   const router = useRouter()
   const { toast } = useToast()
   const [newPassword, setNewPassword] = useState('')
@@ -22,6 +41,16 @@ export default function ProfileForm({ email, displayName, role }: ProfileFormPro
   const [nameValue, setNameValue] = useState(displayName)
   const [loadingPassword, setLoadingPassword] = useState(false)
   const [loadingName, setLoadingName] = useState(false)
+  const [loadingProfile, setLoadingProfile] = useState(false)
+  const [creatorChannelName, setCreatorChannelName] = useState(creatorProfile?.channel_name ?? '')
+  const [creatorLocation, setCreatorLocation] = useState(creatorProfile?.location ?? '')
+  const [creatorNiche, setCreatorNiche] = useState((creatorProfile?.niche ?? []).join(', '))
+  const [creatorBio, setCreatorBio] = useState(creatorProfile?.bio ?? '')
+  const [creatorContactEmail, setCreatorContactEmail] = useState(creatorProfile?.contact_email ?? '')
+  const [brandCompanyName, setBrandCompanyName] = useState(brandProfile?.company_name ?? '')
+  const [brandWebsite, setBrandWebsite] = useState(brandProfile?.website ?? '')
+  const [brandNiche, setBrandNiche] = useState(brandProfile?.niche ?? '')
+  const [brandDescription, setBrandDescription] = useState(brandProfile?.description ?? '')
 
   const handlePasswordUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -62,6 +91,62 @@ export default function ProfileForm({ email, displayName, role }: ProfileFormPro
       router.refresh()
     }
     setLoadingName(false)
+  }
+
+  const handleProfileUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!role) return
+    setLoadingProfile(true)
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { toast('Session expired', 'error'); setLoadingProfile(false); return }
+
+    let errorMessage: string | null = null
+
+    if (role === 'creator') {
+      const nicheList = creatorNiche
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean)
+      const { error } = await supabase
+        .from('creator_profiles')
+        .upsert(
+          {
+            user_id: user.id,
+            channel_name: creatorChannelName || null,
+            location: creatorLocation || null,
+            niche: nicheList.length > 0 ? nicheList : null,
+            bio: creatorBio || null,
+            contact_email: creatorContactEmail || null,
+          },
+          { onConflict: 'user_id' }
+        )
+      if (error) errorMessage = error.message
+    }
+
+    if (role === 'brand') {
+      const { error } = await supabase
+        .from('brand_profiles')
+        .upsert(
+          {
+            user_id: user.id,
+            company_name: brandCompanyName || null,
+            website: brandWebsite || null,
+            niche: brandNiche || null,
+            description: brandDescription || null,
+          },
+          { onConflict: 'user_id' }
+        )
+      if (error) errorMessage = error.message
+    }
+
+    if (errorMessage) {
+      toast(errorMessage, 'error')
+    } else {
+      toast('Profile details saved', 'success')
+      router.refresh()
+    }
+    setLoadingProfile(false)
   }
 
   return (
@@ -107,12 +192,125 @@ export default function ProfileForm({ email, displayName, role }: ProfileFormPro
           <button
             type="submit"
             disabled={loadingName}
-            className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-blue-500/25"
+            className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-emerald-500/25"
           >
             {loadingName ? 'Saving...' : 'Save name'}
           </button>
         </form>
       </div>
+
+      {role && (
+        <div className="bg-white rounded-xl border border-gray-100 p-6">
+          <h3 className="text-sm font-semibold text-gray-900 mb-4">Profile Details</h3>
+          <form onSubmit={handleProfileUpdate} className="space-y-4">
+            {role === 'creator' && (
+              <>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Channel name</label>
+                  <input
+                    type="text"
+                    value={creatorChannelName}
+                    onChange={(e) => setCreatorChannelName(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Your channel name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                  <input
+                    type="text"
+                    value={creatorLocation}
+                    onChange={(e) => setCreatorLocation(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="City, Country"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Niches</label>
+                  <input
+                    type="text"
+                    value={creatorNiche}
+                    onChange={(e) => setCreatorNiche(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="tech_gaming, fitness_health"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Contact email</label>
+                  <input
+                    type="email"
+                    value={creatorContactEmail}
+                    onChange={(e) => setCreatorContactEmail(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="contact@you.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                  <textarea
+                    value={creatorBio}
+                    onChange={(e) => setCreatorBio(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[96px]"
+                    placeholder="Short intro for brands"
+                  />
+                </div>
+              </>
+            )}
+
+            {role === 'brand' && (
+              <>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Company name</label>
+                  <input
+                    type="text"
+                    value={brandCompanyName}
+                    onChange={(e) => setBrandCompanyName(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Company Inc."
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+                  <input
+                    type="url"
+                    value={brandWebsite}
+                    onChange={(e) => setBrandWebsite(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="https://example.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Primary niche</label>
+                  <input
+                    type="text"
+                    value={brandNiche}
+                    onChange={(e) => setBrandNiche(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="finance_business"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <textarea
+                    value={brandDescription}
+                    onChange={(e) => setBrandDescription(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[96px]"
+                    placeholder="Describe your brand"
+                  />
+                </div>
+              </>
+            )}
+
+            <button
+              type="submit"
+              disabled={loadingProfile}
+              className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-emerald-500/25"
+            >
+              {loadingProfile ? 'Saving...' : 'Save profile'}
+            </button>
+          </form>
+        </div>
+      )}
 
       {/* Change password */}
       <div className="bg-white rounded-xl border border-gray-100 p-6">
@@ -148,7 +346,7 @@ export default function ProfileForm({ email, displayName, role }: ProfileFormPro
           <button
             type="submit"
             disabled={loadingPassword}
-            className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-blue-500/25"
+            className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-emerald-500/25"
           >
             {loadingPassword ? 'Updating...' : 'Update password'}
           </button>

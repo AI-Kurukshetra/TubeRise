@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     default: 'TubeRise — YouTube Influencer Platform',
   },
   description: 'Connect brands with YouTube creators. Track campaign ROI in real-time.',
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     title: 'TubeRise',
     description: 'The smarter YouTube influencer platform',

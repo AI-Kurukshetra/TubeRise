@@ -5,6 +5,7 @@ import TopVideosTable from '@/components/dashboard/creator/TopVideosTable'
 import InviteModal from '@/components/dashboard/brand/InviteModal'
 
 export const metadata = { title: 'Creator Profile | TubeRise' }
+export const dynamic = 'force-dynamic'
 
 const nicheLabels: Record<string, string> = {
   tech_gaming: 'Tech & Gaming',

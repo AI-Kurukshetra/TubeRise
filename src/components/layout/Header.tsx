@@ -33,7 +33,7 @@ export default function Header({ title = 'Dashboard', email, onMenuToggle }: Hea
   return (
     <header className="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200/60 flex items-center justify-between px-4 sm:px-6 shrink-0 relative">
       {/* Gradient bottom accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20" />
 
       <div className="flex items-center gap-3">
         {/* Mobile hamburger — hidden on lg+ */}
@@ -52,9 +52,9 @@ export default function Header({ title = 'Dashboard', email, onMenuToggle }: Hea
       {/* Right side */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="focus:outline-none rounded-full focus-visible:ring-2 focus-visible:ring-blue-500">
+          <button className="focus:outline-none rounded-full focus-visible:ring-2 focus-visible:ring-emerald-500">
             <Avatar className="h-8 w-8 cursor-pointer ring-2 ring-transparent hover:ring-blue-500/30 transition-all">
-              <AvatarFallback className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white text-xs font-semibold">
+              <AvatarFallback className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white text-xs font-semibold">
                 {initials}
               </AvatarFallback>
             </Avatar>

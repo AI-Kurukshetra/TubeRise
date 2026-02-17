@@ -12,6 +12,15 @@ export default function OnboardingPage() {
   const { toast } = useToast()
   const [selected, setSelected] = useState<Role | null>(null)
   const [loading, setLoading] = useState(false)
+  const [creatorChannelName, setCreatorChannelName] = useState('')
+  const [creatorLocation, setCreatorLocation] = useState('')
+  const [creatorNiche, setCreatorNiche] = useState('')
+  const [creatorBio, setCreatorBio] = useState('')
+  const [creatorContactEmail, setCreatorContactEmail] = useState('')
+  const [brandCompanyName, setBrandCompanyName] = useState('')
+  const [brandWebsite, setBrandWebsite] = useState('')
+  const [brandNiche, setBrandNiche] = useState('')
+  const [brandDescription, setBrandDescription] = useState('')
 
   const handleContinue = async () => {
     if (!selected) return
@@ -39,13 +48,34 @@ export default function OnboardingPage() {
 
     // Create the role-specific profile row so the user appears in listings
     if (selected === 'creator') {
+      const nicheList = creatorNiche
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean)
+      const channelName = creatorChannelName || user.email?.split('@')[0] || 'Creator'
+      const contactEmail = creatorContactEmail || user.email || null
       await supabase.from('creator_profiles').upsert(
-        { user_id: user.id, channel_name: user.email?.split('@')[0] ?? 'Creator', is_public: true },
+        {
+          user_id: user.id,
+          channel_name: channelName,
+          location: creatorLocation || null,
+          niche: nicheList.length > 0 ? nicheList : null,
+          bio: creatorBio || null,
+          contact_email: contactEmail,
+          is_public: true,
+        },
         { onConflict: 'user_id' }
       )
     } else {
+      const companyName = brandCompanyName || user.email?.split('@')[0] || 'Brand'
       await supabase.from('brand_profiles').upsert(
-        { user_id: user.id, company_name: user.email?.split('@')[0] ?? 'Brand' },
+        {
+          user_id: user.id,
+          company_name: companyName,
+          website: brandWebsite || null,
+          niche: brandNiche || null,
+          description: brandDescription || null,
+        },
         { onConflict: 'user_id' }
       )
     }
@@ -57,12 +87,12 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen gradient-hero flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
       {/* Decorative blobs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-glow-pulse" />
-      <div className="absolute bottom-20 right-10 w-64 h-64 bg-purple-400/15 rounded-full blur-3xl animate-glow-pulse delay-500" />
+      <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl animate-glow-pulse" />
+      <div className="absolute bottom-20 right-10 w-64 h-64 bg-teal-400/15 rounded-full blur-3xl animate-glow-pulse delay-500" />
 
       {/* Logo */}
       <div className="flex items-center gap-2 mb-10 animate-fade-in relative z-10">
-        <div className="w-8 h-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 rounded-lg flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/30">
+        <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 rounded-lg flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/30">
           <span className="text-white text-sm font-bold">T</span>
         </div>
         <span className="font-semibold text-slate-900">TubeRise</span>
@@ -135,10 +165,114 @@ export default function OnboardingPage() {
           </button>
         </div>
 
+        {selected === 'creator' && (
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/60 p-6 shadow-xl shadow-slate-200/40 mb-6">
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Creator details</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-1">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Channel name</label>
+                <input
+                  type="text"
+                  value={creatorChannelName}
+                  onChange={(e) => setCreatorChannelName(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
+                  placeholder="Your channel name"
+                />
+              </div>
+              <div className="sm:col-span-1">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Location</label>
+                <input
+                  type="text"
+                  value={creatorLocation}
+                  onChange={(e) => setCreatorLocation(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
+                  placeholder="City, Country"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Niches</label>
+                <input
+                  type="text"
+                  value={creatorNiche}
+                  onChange={(e) => setCreatorNiche(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
+                  placeholder="tech_gaming, finance_business"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Contact email</label>
+                <input
+                  type="email"
+                  value={creatorContactEmail}
+                  onChange={(e) => setCreatorContactEmail(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
+                  placeholder="contact@you.com"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Bio</label>
+                <textarea
+                  value={creatorBio}
+                  onChange={(e) => setCreatorBio(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70 min-h-[96px]"
+                  placeholder="Short intro for brands"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selected === 'brand' && (
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/60 p-6 shadow-xl shadow-slate-200/40 mb-6">
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Brand details</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-1">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Company name</label>
+                <input
+                  type="text"
+                  value={brandCompanyName}
+                  onChange={(e) => setBrandCompanyName(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
+                  placeholder="Company Inc."
+                />
+              </div>
+              <div className="sm:col-span-1">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Website</label>
+                <input
+                  type="url"
+                  value={brandWebsite}
+                  onChange={(e) => setBrandWebsite(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
+                  placeholder="https://example.com"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Primary niche</label>
+                <input
+                  type="text"
+                  value={brandNiche}
+                  onChange={(e) => setBrandNiche(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
+                  placeholder="finance_business"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium text-gray-600 mb-1">Description</label>
+                <textarea
+                  value={brandDescription}
+                  onChange={(e) => setBrandDescription(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70 min-h-[96px]"
+                  placeholder="Describe your brand"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         <button
           onClick={handleContinue}
           disabled={!selected || loading}
-          className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white py-3 rounded-xl text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30"
+          className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white py-3 rounded-xl text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30"
         >
           {loading ? 'Setting up your account…' : 'Continue'}
         </button>

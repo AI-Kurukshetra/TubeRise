@@ -3,6 +3,7 @@ import CreatorDashboard from '@/components/dashboard/creator/CreatorDashboard'
 import BrandDashboard from '@/components/dashboard/brand/BrandDashboard'
 
 export const metadata = { title: 'Dashboard' }
+export const dynamic = 'force-dynamic'
 
 export default async function DashboardPage() {
   const isConfigured =

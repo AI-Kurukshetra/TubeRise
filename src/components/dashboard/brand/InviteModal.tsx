@@ -72,7 +72,7 @@ export default function InviteModal({ creatorUserId }: InviteModalProps) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white text-sm font-medium hover:opacity-90 transition-all shadow-md shadow-blue-500/25"
+        className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white text-sm font-medium hover:opacity-90 transition-all shadow-md shadow-emerald-500/25"
       >
         Invite to Campaign
       </button>
@@ -137,7 +137,7 @@ export default function InviteModal({ creatorUserId }: InviteModalProps) {
                 type="button"
                 onClick={handleInvite}
                 disabled={!canSubmit || isPending}
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm shadow-blue-500/25"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm shadow-emerald-500/25"
               >
                 {isPending ? 'Sending...' : 'Send Invitation'}
               </button>

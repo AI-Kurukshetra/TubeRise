@@ -145,7 +145,7 @@ export default function VideoSubmissionForm({ invitationId, campaignId }: VideoS
         <button
           type="submit"
           disabled={isPending}
-          className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-blue-500/25"
+          className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-emerald-500/25"
         >
           {isPending ? 'Submitting...' : 'Submit Video'}
         </button>

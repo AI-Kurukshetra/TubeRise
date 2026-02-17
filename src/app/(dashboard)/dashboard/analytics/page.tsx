@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import AnalyticsChart from '@/components/dashboard/creator/AnalyticsChart'
 
 export const metadata = { title: 'Analytics | TubeRise' }
+export const dynamic = 'force-dynamic'
 
 function formatCompact(value: number) {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`

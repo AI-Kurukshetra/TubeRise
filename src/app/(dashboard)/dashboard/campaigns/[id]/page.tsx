@@ -5,6 +5,7 @@ import CampaignROI from '@/components/dashboard/brand/CampaignROI'
 import SubmittedVideosTable from '@/components/dashboard/brand/SubmittedVideosTable'
 
 export const metadata = { title: 'Campaign Detail | TubeRise' }
+export const dynamic = 'force-dynamic'
 
 const nicheLabels: Record<string, string> = {
   tech_gaming: 'Tech & Gaming',

@@ -72,7 +72,7 @@ export default function CampaignCard({
         </div>
         <Link
           href={`/dashboard/campaigns/${id}`}
-          className="text-sm bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent font-semibold hover:opacity-80 transition-opacity"
+          className="text-sm bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent font-semibold hover:opacity-80 transition-opacity"
         >
           View →
         </Link>

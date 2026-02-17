@@ -23,7 +23,7 @@ const gradients = [
 ]
 
 const shadows = [
-  'shadow-blue-500/20',
+  'shadow-emerald-500/20',
   'shadow-violet-500/20',
   'shadow-pink-500/20',
   'shadow-amber-500/20',

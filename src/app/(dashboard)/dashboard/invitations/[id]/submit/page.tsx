@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import VideoSubmissionForm from '@/components/dashboard/creator/VideoSubmissionForm'
 
 export const metadata = { title: 'Submit Video | TubeRise' }
+export const dynamic = 'force-dynamic'
 
 export default async function SubmitVideoPage({
   params,

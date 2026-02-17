@@ -52,7 +52,7 @@ export default function CreatorCard({ creator }: CreatorCardProps) {
             className="w-12 h-12 rounded-full object-cover border-2 border-transparent group-hover:border-blue-500/30 transition-all"
           />
         ) : (
-          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 flex items-center justify-center font-semibold text-sm text-white shadow-md shadow-blue-500/20">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center font-semibold text-sm text-white shadow-md shadow-emerald-500/20">
             {initials}
           </div>
         )}
@@ -101,7 +101,7 @@ export default function CreatorCard({ creator }: CreatorCardProps) {
 
       <Link
         href={`/dashboard/creators/${creator.user_id}`}
-        className="mt-4 inline-flex items-center text-sm font-semibold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+        className="mt-4 inline-flex items-center text-sm font-semibold bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
       >
         View Profile →
       </Link>

@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { respondToInvitation } from './actions'
 
 export const metadata = { title: 'Invitations | TubeRise' }
+export const dynamic = 'force-dynamic'
 
 function formatCurrency(value?: number | null) {
   if (!value) return '—'
@@ -116,7 +117,7 @@ export default async function InvitationsPage() {
                   {inv.status === 'accepted' && (
                     <Link
                       href={`/dashboard/invitations/${inv.id}/submit`}
-                      className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white hover:opacity-90 transition-all shadow-sm shadow-blue-500/25"
+                      className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white hover:opacity-90 transition-all shadow-sm shadow-emerald-500/25"
                     >
                       Submit Video
                     </Link>
@@ -127,7 +128,7 @@ export default async function InvitationsPage() {
                       <form action={respondToInvitation.bind(null, inv.id, 'accepted')}>
                         <button
                           type="submit"
-                          className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white hover:opacity-90 transition-all shadow-sm shadow-blue-500/25"
+                          className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white hover:opacity-90 transition-all shadow-sm shadow-emerald-500/25"
                         >
                           Accept
                         </button>
