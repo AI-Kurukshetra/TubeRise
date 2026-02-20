@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 import Sidebar from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
@@ -13,9 +13,11 @@ interface DashboardShellProps {
 
 export default function DashboardShell({ children, email, role }: DashboardShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => { setMounted(true) }, [])
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  )
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">

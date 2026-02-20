@@ -3,16 +3,19 @@ import { createClient } from '@/lib/supabase/server'
 import { closeCampaign } from '@/app/(dashboard)/dashboard/campaigns/actions'
 import CampaignROI from '@/components/dashboard/brand/CampaignROI'
 import SubmittedVideosTable from '@/components/dashboard/brand/SubmittedVideosTable'
+import {
+  CAMPAIGN_STATUS_BADGE_CLASSES,
+  CAMPAIGN_STATUS_COMPLETED,
+  CAMPAIGN_STATUS_LABELS,
+  CampaignStatus,
+  InvitationStatus,
+  INVITATION_STATUS_BADGE_CLASSES,
+  INVITATION_STATUS_LABELS,
+  NICHE_LABELS,
+} from '@/lib/constants'
 
 export const metadata = { title: 'Campaign Detail | TubeRise' }
 export const dynamic = 'force-dynamic'
-
-const nicheLabels: Record<string, string> = {
-  tech_gaming: 'Tech & Gaming',
-  fitness_health: 'Fitness & Health',
-  beauty_fashion: 'Beauty & Fashion',
-  finance_business: 'Finance & Business',
-}
 
 function formatCurrency(value?: number | null) {
   if (!value) return '—'
@@ -107,24 +110,16 @@ export default async function CampaignDetailPage({
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-semibold text-gray-900">{campaign.title}</h2>
-              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                campaign.status === 'completed'
-                  ? 'bg-gray-100 text-gray-600'
-                  : campaign.status === 'active'
-                    ? 'bg-green-50 text-green-700'
-                    : 'bg-yellow-50 text-yellow-700'
-              }`}>
-                {campaign.status === 'active'
-                  ? 'Active'
-                  : campaign.status === 'completed'
-                    ? 'Completed'
-                    : 'Draft'}
-              </span>
+              {campaign.status && (
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${CAMPAIGN_STATUS_BADGE_CLASSES[campaign.status as CampaignStatus]}`}>
+                  {CAMPAIGN_STATUS_LABELS[campaign.status as CampaignStatus]}
+                </span>
+              )}
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
               {campaign.niche && (
                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                  {nicheLabels[campaign.niche] ?? campaign.niche}
+                  {NICHE_LABELS[campaign.niche as keyof typeof NICHE_LABELS] ?? campaign.niche}
                 </span>
               )}
               <span className="text-xs text-gray-500">Budget: {formatCurrency(campaign.budget)}</span>
@@ -138,7 +133,7 @@ export default async function CampaignDetailPage({
             )}
           </div>
 
-          {campaign.status !== 'completed' && (
+          {campaign.status !== CAMPAIGN_STATUS_COMPLETED && (
             <form action={closeCampaign.bind(null, campaign.id)}>
               <button
                 type="submit"
@@ -189,14 +184,8 @@ export default async function CampaignDetailPage({
                       {creator?.avg_engagement_rate ? `${creator.avg_engagement_rate.toFixed(1)}%` : '—'}
                     </td>
                     <td className="px-4 py-4">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                        inv.status === 'accepted'
-                          ? 'bg-green-50 text-green-700'
-                          : inv.status === 'declined'
-                            ? 'bg-gray-100 text-gray-600'
-                            : 'bg-yellow-50 text-yellow-700'
-                      }`}>
-                        {inv.status === 'pending' ? 'Pending' : inv.status === 'accepted' ? 'Accepted' : 'Declined'}
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${INVITATION_STATUS_BADGE_CLASSES[inv.status as InvitationStatus]}`}>
+                        {INVITATION_STATUS_LABELS[inv.status as InvitationStatus]}
                       </span>
                     </td>
                     <td className="px-4 py-4 text-gray-500">{formatDate(inv.invited_at)}</td>

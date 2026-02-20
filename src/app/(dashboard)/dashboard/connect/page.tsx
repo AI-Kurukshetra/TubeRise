@@ -42,6 +42,7 @@ export default async function ConnectPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-4">
               {account.avatar_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={account.avatar_url}
                   alt={account.channel_name ?? 'Channel avatar'}

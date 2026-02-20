@@ -58,6 +58,7 @@ export default function SubmittedVideosTable({ videos }: SubmittedVideosTablePro
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     {video.thumbnail_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={video.thumbnail_url}
                         alt={video.title ?? 'Video thumbnail'}

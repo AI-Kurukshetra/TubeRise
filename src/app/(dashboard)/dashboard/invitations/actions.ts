@@ -2,8 +2,9 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { InvitationResponseStatus } from '@/lib/constants'
 
-export async function respondToInvitation(invitationId: string, status: 'accepted' | 'declined') {
+export async function respondToInvitation(invitationId: string, status: InvitationResponseStatus) {
   const supabase = await createClient()
   await supabase
     .from('campaign_invitations')

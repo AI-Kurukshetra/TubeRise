@@ -1,13 +1,11 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
+import { NICHE_OPTIONS } from '@/lib/constants'
 
 const nicheOptions = [
   { value: 'all', label: 'All niches' },
-  { value: 'tech_gaming', label: 'Tech & Gaming' },
-  { value: 'fitness_health', label: 'Fitness & Health' },
-  { value: 'beauty_fashion', label: 'Beauty & Fashion' },
-  { value: 'finance_business', label: 'Finance & Business' },
+  ...NICHE_OPTIONS,
 ]
 
 const minSubsOptions = [

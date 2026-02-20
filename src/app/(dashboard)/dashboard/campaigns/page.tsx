@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import CampaignCard from '@/components/dashboard/brand/CampaignCard'
+import { CampaignStatus, InvitationStatus } from '@/lib/constants'
 
 export const metadata = { title: 'Campaigns | TubeRise' }
 export const dynamic = 'force-dynamic'
@@ -16,10 +17,10 @@ export default async function CampaignsPage() {
     niche: string | null
     budget: number | null
     deadline: string | null
-    status: 'draft' | 'active' | 'completed' | null
+    status: CampaignStatus | null
     created_at: string | null
   }> = []
-  let invitationsByCampaign = new Map<string, Array<{ status: 'pending' | 'accepted' | 'declined' }>>()
+  const invitationsByCampaign = new Map<string, Array<{ status: InvitationStatus }>>()
   let errorMessage: string | null = null
 
   if (isConfigured) {

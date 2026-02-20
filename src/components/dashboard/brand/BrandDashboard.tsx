@@ -1,5 +1,10 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import {
+  CAMPAIGN_STATUS_ACTIVE,
+  INVITATION_STATUS_ACCEPTED,
+  INVITATION_STATUS_PENDING,
+} from '@/lib/constants'
 
 interface BrandDashboardProps {
   userId: string
@@ -32,7 +37,7 @@ export default async function BrandDashboard({ userId }: BrandDashboardProps) {
       .eq('brand_user_id', userId)
 
     const campaignIds = (campaigns ?? []).map((c) => c.id)
-    activeCampaigns = (campaigns ?? []).filter((c) => c.status === 'active').length
+    activeCampaigns = (campaigns ?? []).filter((c) => c.status === CAMPAIGN_STATUS_ACTIVE).length
 
     if (campaignIds.length > 0) {
       const { data: invites } = await supabase
@@ -41,8 +46,8 @@ export default async function BrandDashboard({ userId }: BrandDashboardProps) {
         .in('campaign_id', campaignIds)
 
       totalInvites = invites?.length ?? 0
-      pendingInvites = (invites ?? []).filter((i) => i.status === 'pending').length
-      acceptedInvites = (invites ?? []).filter((i) => i.status === 'accepted').length
+      pendingInvites = (invites ?? []).filter((i) => i.status === INVITATION_STATUS_PENDING).length
+      acceptedInvites = (invites ?? []).filter((i) => i.status === INVITATION_STATUS_ACCEPTED).length
     }
   }
 

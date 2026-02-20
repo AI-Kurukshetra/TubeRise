@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { NICHE_LABELS } from '@/lib/constants'
 
 type Creator = {
   id: string
@@ -15,13 +16,6 @@ type Creator = {
 
 interface CreatorCardProps {
   creator: Creator
-}
-
-const nicheLabels: Record<string, string> = {
-  tech_gaming: 'Tech & Gaming',
-  fitness_health: 'Fitness & Health',
-  beauty_fashion: 'Beauty & Fashion',
-  finance_business: 'Finance & Business',
 }
 
 function formatCompact(value: number) {
@@ -46,6 +40,7 @@ export default function CreatorCard({ creator }: CreatorCardProps) {
     <div className="bg-white rounded-xl border border-gray-100 p-5 card-glow gradient-top-accent group">
       <div className="flex items-start gap-3">
         {creator.channel_avatar_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={creator.channel_avatar_url}
             alt={displayName}
@@ -73,7 +68,7 @@ export default function CreatorCard({ creator }: CreatorCardProps) {
             key={tag}
             className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-slate-100 to-slate-50 text-gray-700 ring-1 ring-slate-200/60"
           >
-            {nicheLabels[tag] ?? tag}
+            {NICHE_LABELS[tag as keyof typeof NICHE_LABELS] ?? tag}
           </span>
         ))}
       </div>

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import VideoSubmissionForm from '@/components/dashboard/creator/VideoSubmissionForm'
+import { INVITATION_STATUS_ACCEPTED } from '@/lib/constants'
 
 export const metadata = { title: 'Submit Video | TubeRise' }
 export const dynamic = 'force-dynamic'
@@ -29,7 +30,7 @@ export default async function SubmitVideoPage({
 
   if (!invitation) notFound()
   if (invitation.creator_user_id !== user.id) notFound()
-  if (invitation.status !== 'accepted') notFound()
+  if (invitation.status !== INVITATION_STATUS_ACCEPTED) notFound()
 
   const rawCampaign = invitation.campaigns
   const campaign = (Array.isArray(rawCampaign) ? rawCampaign[0] : rawCampaign) as {

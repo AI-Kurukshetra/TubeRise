@@ -4,13 +4,7 @@ import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toaster'
 import { createCampaign } from '@/app/(dashboard)/dashboard/campaigns/actions'
-
-const nicheOptions = [
-  { value: 'tech_gaming', label: 'Tech & Gaming' },
-  { value: 'fitness_health', label: 'Fitness & Health' },
-  { value: 'beauty_fashion', label: 'Beauty & Fashion' },
-  { value: 'finance_business', label: 'Finance & Business' },
-]
+import { NICHE_OPTIONS } from '@/lib/constants'
 
 export default function CampaignForm() {
   const router = useRouter()
@@ -105,7 +99,7 @@ export default function CampaignForm() {
             required
           >
             <option value="">Select niche</option>
-            {nicheOptions.map((option) => (
+            {NICHE_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>

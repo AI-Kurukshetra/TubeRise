@@ -3,16 +3,10 @@ import { createClient } from '@/lib/supabase/server'
 import AnalyticsChart from '@/components/dashboard/creator/AnalyticsChart'
 import TopVideosTable from '@/components/dashboard/creator/TopVideosTable'
 import InviteModal from '@/components/dashboard/brand/InviteModal'
+import { NICHE_LABELS } from '@/lib/constants'
 
 export const metadata = { title: 'Creator Profile | TubeRise' }
 export const dynamic = 'force-dynamic'
-
-const nicheLabels: Record<string, string> = {
-  tech_gaming: 'Tech & Gaming',
-  fitness_health: 'Fitness & Health',
-  beauty_fashion: 'Beauty & Fashion',
-  finance_business: 'Finance & Business',
-}
 
 function formatCompact(value: number) {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
@@ -69,6 +63,7 @@ export default async function CreatorProfilePage({
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="flex items-center gap-4">
             {creator.channel_avatar_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={creator.channel_avatar_url}
                 alt={creator.channel_name ?? 'Creator avatar'}
@@ -101,7 +96,7 @@ export default async function CreatorProfilePage({
               key={tag}
               className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
             >
-              {nicheLabels[tag] ?? tag}
+              {NICHE_LABELS[tag as keyof typeof NICHE_LABELS] ?? tag}
             </span>
           ))}
         </div>

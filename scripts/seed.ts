@@ -84,7 +84,7 @@ async function seed() {
       display_name: c.handle,
     })
 
-    const { data: cp } = await supabase.from('creator_profiles').insert({
+    await supabase.from('creator_profiles').insert({
       user_id: uid,
       channel_name: c.handle,
       channel_handle: `@${c.handle}`,
@@ -356,7 +356,7 @@ async function seed() {
 
   console.log('\n✅ Seed complete!')
   console.log('\nAccounts created (all password: Password123!):')
-  creators.forEach((c, i) => {
+  creators.forEach((c) => {
     console.log(`  creator  ${c.handle.toLowerCase()}@tuberise.dev`)
   })
   brands.forEach((b) => {

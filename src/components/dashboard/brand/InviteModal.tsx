@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, useTransition } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/ui/Toaster'
 import { inviteCreator } from '@/app/(dashboard)/dashboard/campaigns/actions'
+import { CAMPAIGN_STATUS_ACTIVE } from '@/lib/constants'
 
 interface InviteModalProps {
   creatorUserId: string
@@ -37,7 +38,7 @@ export default function InviteModal({ creatorUserId }: InviteModalProps) {
         .from('campaigns')
         .select('id, title')
         .eq('brand_user_id', user.id)
-        .eq('status', 'active')
+        .eq('status', CAMPAIGN_STATUS_ACTIVE)
         .order('created_at', { ascending: false })
       if (error) {
         toast(error.message, 'error')

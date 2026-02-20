@@ -1,4 +1,13 @@
 import Link from 'next/link'
+import {
+  CAMPAIGN_STATUS_BADGE_CLASSES,
+  CAMPAIGN_STATUS_LABELS,
+  CampaignStatus,
+  INVITATION_STATUS_ACCEPTED,
+  INVITATION_STATUS_PENDING,
+  InvitationStatus,
+  NICHE_LABELS,
+} from '@/lib/constants'
 
 type CampaignCardProps = {
   id: string
@@ -6,15 +15,8 @@ type CampaignCardProps = {
   niche: string | null
   budget: number | null
   deadline: string | null
-  status: 'draft' | 'active' | 'completed' | null
-  invitations: Array<{ status: 'pending' | 'accepted' | 'declined' }>
-}
-
-const nicheLabels: Record<string, string> = {
-  tech_gaming: 'Tech & Gaming',
-  fitness_health: 'Fitness & Health',
-  beauty_fashion: 'Beauty & Fashion',
-  finance_business: 'Finance & Business',
+  status: CampaignStatus | null
+  invitations: Array<{ status: InvitationStatus }>
 }
 
 function formatCurrency(value?: number | null) {
@@ -43,8 +45,8 @@ export default function CampaignCard({
   invitations,
 }: CampaignCardProps) {
   const invitedCount = invitations.length
-  const acceptedCount = invitations.filter((i) => i.status === 'accepted').length
-  const pendingCount = invitations.filter((i) => i.status === 'pending').length
+  const acceptedCount = invitations.filter((i) => i.status === INVITATION_STATUS_ACCEPTED).length
+  const pendingCount = invitations.filter((i) => i.status === INVITATION_STATUS_PENDING).length
 
   return (
     <div className="bg-white rounded-xl border border-gray-100 p-5 card-glow gradient-top-accent">
@@ -54,18 +56,12 @@ export default function CampaignCard({
           <div className="flex flex-wrap items-center gap-2 mt-2">
             {niche && (
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-slate-100 to-slate-50 text-gray-700 ring-1 ring-slate-200/60">
-                {nicheLabels[niche] ?? niche}
+                {NICHE_LABELS[niche as keyof typeof NICHE_LABELS] ?? niche}
               </span>
             )}
             {status && (
-              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                status === 'completed'
-                  ? 'bg-gray-100 text-gray-600'
-                  : status === 'active'
-                    ? 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 ring-1 ring-green-200/60'
-                    : 'bg-yellow-50 text-yellow-700'
-              }`}>
-                {status === 'active' ? 'Active' : status === 'completed' ? 'Completed' : 'Draft'}
+              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${CAMPAIGN_STATUS_BADGE_CLASSES[status]}`}>
+                {CAMPAIGN_STATUS_LABELS[status]}
               </span>
             )}
           </div>

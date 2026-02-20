@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { CAMPAIGN_STATUS_ACTIVE, CAMPAIGN_STATUS_COMPLETED } from '@/lib/constants'
 
 export async function createCampaign(formData: FormData) {
   const supabase = await createClient()
@@ -16,7 +17,7 @@ export async function createCampaign(formData: FormData) {
     budget: Number(formData.get('budget')),
     deliverables: (formData.get('deliverables') as string)?.trim(),
     deadline: (formData.get('deadline') as string) ?? null,
-    status: 'active',
+    status: CAMPAIGN_STATUS_ACTIVE,
   }
 
   const { error } = await supabase.from('campaigns').insert(payload)
@@ -44,7 +45,7 @@ export async function closeCampaign(campaignId: string): Promise<void> {
   const supabase = await createClient()
   await supabase
     .from('campaigns')
-    .update({ status: 'completed' })
+    .update({ status: CAMPAIGN_STATUS_COMPLETED })
     .eq('id', campaignId)
 
   revalidatePath('/dashboard/campaigns')

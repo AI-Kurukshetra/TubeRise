@@ -1,5 +1,13 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import {
+  INVITATION_STATUS_ACCEPTED,
+  INVITATION_STATUS_BADGE_CLASSES,
+  INVITATION_STATUS_DECLINED,
+  INVITATION_STATUS_LABELS,
+  INVITATION_STATUS_PENDING,
+  InvitationStatus,
+} from '@/lib/constants'
 import { respondToInvitation } from './actions'
 
 export const metadata = { title: 'Invitations | TubeRise' }
@@ -28,7 +36,7 @@ export default async function InvitationsPage() {
 
   let invitations: Array<{
     id: string
-    status: 'pending' | 'accepted' | 'declined'
+    status: InvitationStatus
     message: string | null
     invited_at: string | null
     responded_at: string | null
@@ -105,16 +113,12 @@ export default async function InvitationsPage() {
 
                 <div className="flex items-center gap-2">
                   <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                    inv.status === 'accepted'
-                      ? 'bg-green-50 text-green-700'
-                      : inv.status === 'declined'
-                        ? 'bg-gray-100 text-gray-600'
-                        : 'bg-yellow-50 text-yellow-700'
+                    INVITATION_STATUS_BADGE_CLASSES[inv.status]
                   }`}>
-                    {inv.status === 'pending' ? 'Pending' : inv.status === 'accepted' ? 'Accepted' : 'Declined'}
+                    {INVITATION_STATUS_LABELS[inv.status]}
                   </span>
 
-                  {inv.status === 'accepted' && (
+                  {inv.status === INVITATION_STATUS_ACCEPTED && (
                     <Link
                       href={`/dashboard/invitations/${inv.id}/submit`}
                       className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white hover:opacity-90 transition-all shadow-sm shadow-emerald-500/25"
@@ -123,9 +127,9 @@ export default async function InvitationsPage() {
                     </Link>
                   )}
 
-                  {inv.status === 'pending' && (
+                  {inv.status === INVITATION_STATUS_PENDING && (
                     <div className="flex items-center gap-2">
-                      <form action={respondToInvitation.bind(null, inv.id, 'accepted')}>
+                      <form action={respondToInvitation.bind(null, inv.id, INVITATION_STATUS_ACCEPTED)}>
                         <button
                           type="submit"
                           className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-white hover:opacity-90 transition-all shadow-sm shadow-emerald-500/25"
@@ -133,7 +137,7 @@ export default async function InvitationsPage() {
                           Accept
                         </button>
                       </form>
-                      <form action={respondToInvitation.bind(null, inv.id, 'declined')}>
+                      <form action={respondToInvitation.bind(null, inv.id, INVITATION_STATUS_DECLINED)}>
                         <button
                           type="submit"
                           className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-600 hover:bg-gray-50"
