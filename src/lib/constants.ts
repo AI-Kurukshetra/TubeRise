@@ -43,8 +43,8 @@ export type InvitationStatus = (typeof INVITATION_STATUSES)[number]
 export type InvitationResponseStatus = Exclude<InvitationStatus, 'pending'>
 
 export const INVITATION_STATUS_PENDING: InvitationStatus = 'pending'
-export const INVITATION_STATUS_ACCEPTED: InvitationStatus = 'accepted'
-export const INVITATION_STATUS_DECLINED: InvitationStatus = 'declined'
+export const INVITATION_STATUS_ACCEPTED: InvitationResponseStatus = 'accepted'
+export const INVITATION_STATUS_DECLINED: InvitationResponseStatus = 'declined'
 
 export const INVITATION_STATUS_LABELS: Record<InvitationStatus, string> = {
   pending: 'Pending',
