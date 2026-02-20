@@ -62,10 +62,10 @@ export default async function ProfilePage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900">Profile</h2>
-        <p className="text-sm text-gray-500 mt-1">Manage your account details.</p>
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Profile</h2>
+        <p className="text-sm text-gray-500 mt-1">Manage your account, profile details, and security settings.</p>
       </div>
       <ProfileForm
         email={email}

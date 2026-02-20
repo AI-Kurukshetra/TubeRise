@@ -43,6 +43,18 @@ export async function inviteCreator(campaignId: string, creatorUserId: string, m
 
 export async function closeCampaign(campaignId: string): Promise<void> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return
+
+  // Verify the campaign belongs to this brand
+  const { data: campaign } = await supabase
+    .from('campaigns')
+    .select('brand_user_id')
+    .eq('id', campaignId)
+    .single()
+
+  if (!campaign || campaign.brand_user_id !== user.id) return
+
   await supabase
     .from('campaigns')
     .update({ status: CAMPAIGN_STATUS_COMPLETED })

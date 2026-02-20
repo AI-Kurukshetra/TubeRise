@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import TopVideosTable from '@/components/dashboard/creator/TopVideosTable'
 
-export const metadata = { title: 'My Videos | TubeRise' }
+export const metadata = { title: 'Campaign Videos | TubeRise' }
 export const dynamic = 'force-dynamic'
 
 export default async function VideosPage() {
@@ -42,8 +42,8 @@ export default async function VideosPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900">My Videos</h2>
-        <p className="text-sm text-gray-500 mt-1">Recent performance across your latest uploads.</p>
+        <h2 className="text-xl font-semibold text-gray-900">Campaign Videos</h2>
+        <p className="text-sm text-gray-500 mt-1">Videos you submitted for brand campaigns and their performance.</p>
       </div>
       <TopVideosTable videos={videos} showPublished showDuration />
     </div>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/components/ui/Toaster'
+import { NICHE_OPTIONS } from '@/lib/constants'
 
 type Role = 'creator' | 'brand'
 
@@ -14,7 +15,7 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(false)
   const [creatorChannelName, setCreatorChannelName] = useState('')
   const [creatorLocation, setCreatorLocation] = useState('')
-  const [creatorNiche, setCreatorNiche] = useState('')
+  const [creatorNiche, setCreatorNiche] = useState<string[]>([])
   const [creatorBio, setCreatorBio] = useState('')
   const [creatorContactEmail, setCreatorContactEmail] = useState('')
   const [brandCompanyName, setBrandCompanyName] = useState('')
@@ -48,10 +49,6 @@ export default function OnboardingPage() {
 
     // Create the role-specific profile row so the user appears in listings
     if (selected === 'creator') {
-      const nicheList = creatorNiche
-        .split(',')
-        .map((item) => item.trim())
-        .filter(Boolean)
       const channelName = creatorChannelName || user.email?.split('@')[0] || 'Creator'
       const contactEmail = creatorContactEmail || user.email || null
       await supabase.from('creator_profiles').upsert(
@@ -59,7 +56,7 @@ export default function OnboardingPage() {
           user_id: user.id,
           channel_name: channelName,
           location: creatorLocation || null,
-          niche: nicheList.length > 0 ? nicheList : null,
+          niche: creatorNiche.length > 0 ? creatorNiche : null,
           bio: creatorBio || null,
           contact_email: contactEmail,
           is_public: true,
@@ -190,14 +187,34 @@ export default function OnboardingPage() {
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">Niches</label>
-                <input
-                  type="text"
-                  value={creatorNiche}
-                  onChange={(e) => setCreatorNiche(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
-                  placeholder="tech_gaming, finance_business"
-                />
+                <label className="block text-xs font-medium text-gray-600 mb-2">Niches</label>
+                <div className="flex flex-wrap gap-2">
+                  {NICHE_OPTIONS.map((option) => {
+                    const checked = creatorNiche.includes(option.value)
+                    return (
+                      <label
+                        key={option.value}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm cursor-pointer transition-all ${
+                          checked
+                            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                            : 'border-gray-200 bg-white/70 text-gray-600 hover:border-gray-300'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          className="sr-only"
+                          checked={checked}
+                          onChange={() =>
+                            setCreatorNiche((prev) =>
+                              checked ? prev.filter((v) => v !== option.value) : [...prev, option.value]
+                            )
+                          }
+                        />
+                        {option.label}
+                      </label>
+                    )
+                  })}
+                </div>
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-gray-600 mb-1">Contact email</label>
@@ -248,13 +265,16 @@ export default function OnboardingPage() {
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-gray-600 mb-1">Primary niche</label>
-                <input
-                  type="text"
+                <select
                   value={brandNiche}
                   onChange={(e) => setBrandNiche(e.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all bg-white/70"
-                  placeholder="finance_business"
-                />
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-white/70 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all"
+                >
+                  <option value="">Select niche</option>
+                  {NICHE_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-xs font-medium text-gray-600 mb-1">Description</label>

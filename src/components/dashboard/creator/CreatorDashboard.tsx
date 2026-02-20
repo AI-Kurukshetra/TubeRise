@@ -66,7 +66,7 @@ export default async function CreatorDashboard({ userId }: CreatorDashboardProps
             href="/dashboard/videos"
             className="text-sm text-gray-600 hover:text-gray-900 font-medium"
           >
-            View Videos
+            Campaign Videos
           </Link>
         </div>
       </div>

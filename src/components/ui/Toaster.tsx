@@ -66,10 +66,10 @@ function ToastItem({
 
   return (
     <div
-      className={`flex items-start gap-3 px-4 py-3 rounded-lg border text-sm shadow-md transition-all duration-300 ease-out ${STYLES[t.type]} ${
+      className={`flex items-start gap-3 px-4 py-3 rounded-lg border text-sm shadow-lg transition-all duration-300 ease-out ${STYLES[t.type]} ${
         visible && !t.exiting
-          ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-2'
+          ? 'opacity-100 translate-x-0'
+          : 'opacity-0 translate-x-4'
       }`}
     >
       {ICONS[t.type]}

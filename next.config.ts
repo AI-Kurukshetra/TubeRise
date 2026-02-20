@@ -16,7 +16,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-eval' 'unsafe-inline'", // unsafe-eval/inline required by Next.js dev
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://api.dicebear.com",
+      "img-src 'self' data: blob: https://api.dicebear.com https://picsum.photos https://fastly.picsum.photos https://i.ytimg.com https://img.youtube.com",
       "font-src 'self'",
       "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
       "frame-ancestors 'none'",

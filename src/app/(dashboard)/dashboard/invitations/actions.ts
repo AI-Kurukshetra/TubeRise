@@ -2,10 +2,24 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
-import { InvitationResponseStatus } from '@/lib/constants'
+import { InvitationResponseStatus, INVITATION_STATUS_PENDING } from '@/lib/constants'
 
-export async function respondToInvitation(invitationId: string, status: InvitationResponseStatus) {
+export async function respondToInvitation(invitationId: string, status: InvitationResponseStatus): Promise<void> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return
+
+  // Verify the invitation belongs to this creator and is still pending
+  const { data: invitation } = await supabase
+    .from('campaign_invitations')
+    .select('creator_user_id, status')
+    .eq('id', invitationId)
+    .single()
+
+  if (!invitation) return
+  if (invitation.creator_user_id !== user.id) return
+  if (invitation.status !== INVITATION_STATUS_PENDING) return
+
   await supabase
     .from('campaign_invitations')
     .update({ status, responded_at: new Date().toISOString() })

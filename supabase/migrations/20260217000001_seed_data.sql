@@ -35,19 +35,19 @@ begin
 -- â”€â”€ Auth users â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at, raw_app_meta_data, raw_user_meta_data)
 values
-  (uid_alex,  'techwithAlex@tuberise.dev',     '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_sarah, 'fitlifesarah@tuberise.dev',     '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_mia,   'glowwithmia@tuberise.dev',      '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_jay,   'wealthbuilderjay@tuberise.dev', '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_kai,   'gamezonekai@tuberise.dev',      '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_rena,  'runwithrena@tuberise.dev',      '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_zoe,   'stylebyzoe@tuberise.dev',       '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_dan,   'cryptowithdan@tuberise.dev',    '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_pixel, 'pixelpro@tuberise.dev',         '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_nadia, 'nutritionnadia@tuberise.dev',   '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_nova,  'novatech@tuberise.dev',         '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_glow,  'pureglowskincare@tuberise.dev', '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
-  (uid_fin,   'finedgeapp@tuberise.dev',       '$2a$10$PozPkQYPzBQ5MNqP.bJkYuFsJBMHq7j0WzrL7GEUr9E9V8HiQfXpG', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}')
+  (uid_alex,  'techwithAlex@tuberise.dev',     '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_sarah, 'fitlifesarah@tuberise.dev',     '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_mia,   'glowwithmia@tuberise.dev',      '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_jay,   'wealthbuilderjay@tuberise.dev', '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_kai,   'gamezonekai@tuberise.dev',      '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_rena,  'runwithrena@tuberise.dev',      '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_zoe,   'stylebyzoe@tuberise.dev',       '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_dan,   'cryptowithdan@tuberise.dev',    '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_pixel, 'pixelpro@tuberise.dev',         '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_nadia, 'nutritionnadia@tuberise.dev',   '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_nova,  'novatech@tuberise.dev',         '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_glow,  'pureglowskincare@tuberise.dev', '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}'),
+  (uid_fin,   'finedgeapp@tuberise.dev',       '$2a$10$beHvi/iHAI1Dc95m4BtHGeNYFEC294eiyliX0VWSQC1qaOaDq4HH6', now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}')
 on conflict (id) do nothing;
 
 -- â”€â”€ Profiles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€

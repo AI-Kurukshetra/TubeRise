@@ -66,7 +66,7 @@ const commonBottom: NavItem[] = [
 const creatorNav: NavItem[] = [
   { label: 'Dashboard',       href: '/dashboard',             icon: iconHome },
   { label: 'Analytics',       href: '/dashboard/analytics',   icon: iconChart },
-  { label: 'My Videos',       href: '/dashboard/videos',      icon: iconVideo },
+  { label: 'Campaign Videos', href: '/dashboard/videos',      icon: iconVideo },
   { label: 'Connect YouTube', href: '/dashboard/connect',     icon: iconLink },
   { label: 'Invitations',     href: '/dashboard/invitations', icon: iconMail },
   ...commonBottom,
